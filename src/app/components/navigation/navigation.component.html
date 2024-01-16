@@ -1,0 +1,7 @@
+<nav class="navigation">
+  @for (item of navigationItems; track item) {
+  <div class="navigation-item" (click)="onSelectCategory.emit(item)">
+    {{ item | titlecase }}
+  </div>
+  }
+</nav>

@@ -1,0 +1,35 @@
+<div class="home-page">
+  <div class="home-page-title">
+    <span class="home-page-title-text">Jokes</span>
+    <button
+      class="home-page-title-toggle"
+      mat-raised-button
+      (click)="isSignals = !isSignals"
+    >
+      to {{ isSignals ? "observables" : "signals" }}
+    </button>
+  </div>
+
+  <app-navigation
+    [navigationItems]="
+      (isSignals ? jokeCategories() : (jokeCategories$ | async)) ?? []
+    "
+    (onSelectCategory)="onSelectCategory($event)"
+  />
+
+  <div
+    class="home-page-joke"
+    *ngIf="isSignals ? currentJoke() : (currentJoke$ | async) as joke"
+  >
+    <p class="home-page-joke-category">
+      {{ joke.categories[0] | titlecase }}
+    </p>
+    <span class="home-page-joke-text">{{ joke.value }}</span>
+  </div>
+</div>
+
+@if (isLoading$ | async) {
+<section class="spinner-container">
+  <mat-spinner />
+</section>
+}
