@@ -1,0 +1,8 @@
+<div class="joke">
+  @if (showCategory) {
+  <p class="joke-category">
+    {{ joke.categories[0] | titlecase }}
+  </p>
+  }
+  <span class="joke-text">{{ joke.value }}</span>
+</div>

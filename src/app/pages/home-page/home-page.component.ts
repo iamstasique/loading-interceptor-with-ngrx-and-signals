@@ -15,6 +15,7 @@ import { NavigationComponent } from '../../components/navigation/navigation.comp
 import { Joke } from '../../models/joke.model';
 import { JokeService } from '../../services/joke/joke.service';
 import { SpinnerService } from '../../services/spinner/spinner.service';
+import { JokeComponent } from '../../components/joke/joke.component';
 
 @Component({
   selector: 'app-home-page',
@@ -25,6 +26,7 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
     MatProgressSpinnerModule,
     NavigationComponent,
     MatButtonModule,
+    JokeComponent
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

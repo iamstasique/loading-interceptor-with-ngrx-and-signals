@@ -18,12 +18,7 @@
   />
 
   @if (isSignals ? currentJoke() : (currentJoke$ | async); as joke) {
-  <div class="home-page-joke">
-    <p class="home-page-joke-category">
-      {{ joke.categories[0] | titlecase }}
-    </p>
-    <span class="home-page-joke-text">{{ joke.value }}</span>
-  </div>
+  <app-joke [joke]="joke" showCategory/>
   }
 </div>
 
