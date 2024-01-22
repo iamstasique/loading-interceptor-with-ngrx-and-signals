@@ -1,0 +1,14 @@
+$background-color: rgba(0, 0, 0, 0.05);
+
+.joke {
+  width: 400px;
+  background: $background-color;
+  margin: 30px auto;
+  padding: 20px;
+
+  .joke-category {
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+  }
+}

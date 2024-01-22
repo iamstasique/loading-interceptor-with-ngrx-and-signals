@@ -1,0 +1,23 @@
+<nav class="navigation">
+  @for (item of navigationItems; let i = $index; track item) {
+    @if(i % 2 === 0) {
+      @defer (on hover) {
+        <div class="navigation-item" (click)="onSelectCategory.emit(item)">
+          {{ item | titlecase }}
+        </div>
+      }
+      @placeholder {
+        <span class="navigation-item">hover</span>
+      }
+    } @else {
+      @defer (on interaction) {
+        <div class="navigation-item" (click)="onSelectCategory.emit(item)">
+          {{ item | titlecase }}
+        </div>
+      }
+      @placeholder {
+        <span class="navigation-item">touch</span>
+      }
+    }
+  }
+</nav>
