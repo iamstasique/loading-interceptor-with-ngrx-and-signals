@@ -18,7 +18,7 @@
   />
 
   @if (isSignals ? currentJoke() : (currentJoke$ | async); as joke) {
-  <app-joke [joke]="joke" showCategory/>
+  <app-joke [joke]="joke" showCategory />
   }
 </div>
 

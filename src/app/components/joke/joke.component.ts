@@ -1,6 +1,10 @@
-import { Component, Input, booleanAttribute } from '@angular/core';
-import { Joke } from '../../models/joke.model';
 import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Input,
+  booleanAttribute
+} from '@angular/core';
+import { Joke } from '../../models/joke.model';
 
 @Component({
   selector: 'app-joke',
@@ -11,5 +15,5 @@ import { CommonModule } from '@angular/common';
 })
 export class JokeComponent {
   @Input({ required: true }) joke!: Joke;
-  @Input({transform: booleanAttribute}) showCategory: boolean = false;
+  @Input({ transform: booleanAttribute }) showCategory: boolean = false;
 }

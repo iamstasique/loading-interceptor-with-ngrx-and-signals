@@ -5,17 +5,34 @@ import {
   OnInit,
   Signal,
   WritableSignal,
+  inject,
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject, Observable, filter, switchMap, tap } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Store } from '@ngrx/store';
+import {
+  BehaviorSubject,
+  Observable,
+  filter,
+  first,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { JokeComponent } from '../../components/joke/joke.component';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { Joke } from '../../models/joke.model';
 import { JokeService } from '../../services/joke/joke.service';
 import { SpinnerService } from '../../services/spinner/spinner.service';
-import { JokeComponent } from '../../components/joke/joke.component';
+import {
+  GET_JOKE,
+  GET_JOKE_CATEGORIES,
+} from '../../store/joke/actions/joke.actions';
+import {
+  SELECT_CURRENT_JOKE,
+  SELECT_JOKES,
+} from '../../store/joke/selectors/joke.selectors';
 
 @Component({
   selector: 'app-home-page',
@@ -26,17 +43,19 @@ import { JokeComponent } from '../../components/joke/joke.component';
     MatProgressSpinnerModule,
     NavigationComponent,
     MatButtonModule,
-    JokeComponent
+    JokeComponent,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePageComponent implements OnInit {
+  private store = inject(Store);
+
+  jokeCategoriesFromNgRxStore$ = this.store.select(SELECT_JOKES);
+  currentJokeFromNgRxStore$ = this.store.select(SELECT_CURRENT_JOKE);
+
   /**
-   * @description
    * OBSERVABLES
-   * here we CAN send a new request with the same category and receive a new joke
-   * here we CAN show the first joke by default
    */
 
   jokeCategories$!: Observable<string[]>;
@@ -45,7 +64,6 @@ export default class HomePageComponent implements OnInit {
     new BehaviorSubject<string>('');
 
   /**
-   * @description
    * SIGNALS
    * here we CAN'T show the first joke by default
    */
@@ -77,6 +95,8 @@ export default class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initNgRxStore();
+
     this.jokeCategories$ = this.jokeService
       .getJokeCategories()
       .pipe(
@@ -101,5 +121,19 @@ export default class HomePageComponent implements OnInit {
 
   private getJoke(category: string): Observable<Joke> {
     return this.jokeService.getJokeByCategory(category);
+  }
+
+  private initNgRxStore(): void {
+    this.store.dispatch(GET_JOKE_CATEGORIES());
+
+    this.jokeCategoriesFromNgRxStore$
+      .pipe(
+        filter((categories: string[]) => !!categories.length),
+        first(),
+        tap((categories: string[]) =>
+          this.store.dispatch(GET_JOKE({ category: categories[0] }))
+        )
+      )
+      .subscribe();
   }
 }
