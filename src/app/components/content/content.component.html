@@ -1,0 +1,8 @@
+<app-navigation
+  [navigationItems]="categories"
+  (onSelectCategory)="onSelectCategory($event)"
+/>
+
+@if (currentJoke) {
+<app-joke [joke]="currentJoke" showCategory />
+}

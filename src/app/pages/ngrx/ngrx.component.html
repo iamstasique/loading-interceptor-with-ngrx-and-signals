@@ -1,0 +1,5 @@
+<app-content
+  [categories]="jokeCategoriesFromNgRxStore$ | async"
+  [currentJoke]="currentJokeFromNgRxStore$ | async"
+  (onSelect)="onSelectCategory($event)"
+/>
