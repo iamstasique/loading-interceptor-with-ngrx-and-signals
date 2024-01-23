@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Observable } from 'rxjs';
-import { JokeComponent } from '../../components/joke/joke.component';
-import { NavigationComponent } from '../../components/navigation/navigation.component';
 import { SwitcherComponent } from '../../components/switcher/switcher.component';
 import { SwitcherElements } from '../../enums/switcher-elements.enum';
-import { JokeService } from '../../services/joke/joke.service';
 import { SpinnerService } from '../../services/spinner/spinner.service';
 import { NgrxComponent } from '../ngrx/ngrx.component';
 import { ObservablesComponent } from '../observables/observables.component';
@@ -23,18 +19,14 @@ import { SignalsComponent } from '../signals/signals.component';
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
-    NavigationComponent,
-    MatButtonModule,
-    JokeComponent,
     SwitcherComponent,
     ObservablesComponent,
-    FormsModule,
     ReactiveFormsModule,
     SignalsComponent,
     NgrxComponent,
   ],
 })
-export default class HomePageComponent implements OnInit {
+export default class HomePageComponent {
   switcherItems: SwitcherElements[] = [
     SwitcherElements.Observables,
     SwitcherElements.Signals,
@@ -44,15 +36,7 @@ export default class HomePageComponent implements OnInit {
   switcherControl: FormControl<SwitcherElements> =
     new FormControl<SwitcherElements>(this.switcherItems[0]);
 
+  protected spinnerService = inject(SpinnerService);
   protected switcherElements = SwitcherElements;
-  protected isLoading$: Observable<boolean>;
-
-  constructor(
-    private jokeService: JokeService,
-    private spinnerService: SpinnerService
-  ) {}
-
-  ngOnInit(): void {
-    this.isLoading$ = this.spinnerService.isLoading$;
-  }
+  protected isLoading$: Observable<boolean> = this.spinnerService.isLoading$;
 }
