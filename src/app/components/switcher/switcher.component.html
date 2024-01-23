@@ -1,0 +1,12 @@
+<mat-button-toggle-group
+  name="fontStyle"
+  aria-label="Font Style"
+  [formControl]="control"
+  
+>
+  @for (item of items; track item) {
+  <mat-button-toggle [value]="item">
+    {{ item | titlecase }}
+  </mat-button-toggle>
+  }
+</mat-button-toggle-group>

@@ -1,24 +1,17 @@
 <div class="home-page">
   <div class="home-page-title">
     <span class="home-page-title-text">Jokes</span>
-    <button
+    <app-switcher
+      [items]="switcherItems"
+      [formControl]='switcherControl'
       class="home-page-title-toggle"
-      mat-raised-button
-      (click)="isSignals = !isSignals"
-    >
-      to {{ isSignals ? "observables" : "signals" }}
-    </button>
+      />
   </div>
 
-  <app-navigation
-    [navigationItems]="
-      (isSignals ? jokeCategories() : (jokeCategories$ | async)) ?? []
-    "
-    (onSelectCategory)="onSelectCategory($event)"
-  />
-
-  @if (isSignals ? currentJoke() : (currentJoke$ | async); as joke) {
-  <app-joke [joke]="joke" showCategory />
+  @switch (switcherControl.value) {
+    @case (switcherElements.NgRx) { <app-ngrx/>}
+    @case (switcherElements.Observables) { <app-observables/> }
+    @case (switcherElements.Signals) { <app-signals/>}
   }
 </div>
 

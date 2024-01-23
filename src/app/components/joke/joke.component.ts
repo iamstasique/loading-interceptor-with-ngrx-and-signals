@@ -14,6 +14,6 @@ import { Joke } from '../../models/joke.model';
   styleUrl: './joke.component.scss',
 })
 export class JokeComponent {
-  @Input({ required: true }) joke!: Joke;
+  @Input({ required: true }) joke: Joke;
   @Input({ transform: booleanAttribute }) showCategory: boolean = false;
 }

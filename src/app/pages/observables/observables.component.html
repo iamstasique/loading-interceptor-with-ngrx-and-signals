@@ -1,0 +1,5 @@
+<app-content
+  [categories]="jokeCategories$ | async"
+  [currentJoke]="currentJoke$ | async"
+  (onSelect)="onSelectCategory($event)"
+/>
