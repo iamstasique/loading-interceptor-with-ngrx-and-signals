@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, first, tap } from 'rxjs';
+import { Observable, filter, first, tap } from 'rxjs';
 import { ContentComponent } from '../../components/content/content.component';
 import { JokeComponent } from '../../components/joke/joke.component';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
+import { Joke } from '../../models/joke.model';
 import {
   GET_JOKE,
   GET_JOKE_CATEGORIES,
@@ -23,8 +24,10 @@ import {
 })
 export class NgrxComponent implements OnInit {
   private readonly store = inject(Store);
-  jokeCategoriesFromNgRxStore$ = this.store.select(SELECT_JOKES);
-  currentJokeFromNgRxStore$ = this.store.select(SELECT_CURRENT_JOKE);
+  jokeCategoriesFromNgRxStore$: Observable<string[]> =
+    this.store.select(SELECT_JOKES);
+  currentJokeFromNgRxStore$: Observable<Joke> =
+    this.store.select(SELECT_CURRENT_JOKE);
 
   ngOnInit(): void {
     this.initNgRxStore();

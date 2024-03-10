@@ -21,7 +21,7 @@ import { JokeService } from '../../services/joke/joke.service';
   imports: [NavigationComponent, JokeComponent, ContentComponent],
 })
 export class SignalsComponent {
-  private jokeService = inject(JokeService);
+  private jokeService: JokeService = inject(JokeService);
 
   jokeCategories: Signal<string[]> = toSignal(
     this.jokeService.getJokeCategories()
