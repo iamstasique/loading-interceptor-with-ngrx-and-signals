@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { BehaviorSubject, Observable, filter, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, exhaustMap, filter, tap } from 'rxjs';
 import { ContentComponent } from '../../components/content/content.component';
 import { JokeComponent } from '../../components/joke/joke.component';
 import { NavigationComponent } from '../../components/navigation/navigation.component';
@@ -34,7 +34,7 @@ export class ObservablesComponent implements OnInit {
 
     this.currentJoke$ = this.selectCategorySubject.pipe(
       filter((joke) => !!joke),
-      switchMap((category: string) =>
+      exhaustMap((category: string) =>
         this.jokeService.getJokeByCategory(category)
       )
     );
